@@ -867,6 +867,8 @@ const byRightNow = () =>{
 byRightNow();
 
 const Basket = (elements,price,currency) =>{
+    const mobBasket = document.querySelector('.top__right-basket--num');
+    mobBasket.innerText = elements;
     const basket = document.querySelector('.top__right-name');
     basket.innerHTML = "";
     const span = document.createElement('span');
