@@ -242,6 +242,9 @@ button {
     border: 3px solid #ff6629;
 }
 .slider__item {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
     min-width: 290px;
     margin: 0 auto;
     padding: 30px 35px 20px 35px;
@@ -891,6 +894,7 @@ button {
     }
     .slider__item {
         min-width: 215px;
+        max-width: 230px;
         margin: 0;
         padding: 30px 12px 20px 12px;
     }
