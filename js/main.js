@@ -88,6 +88,9 @@ const firstBlock = () => {
             close.style.display = "none";
         });
     });
+    if(!limiter){
+        header.innerHTML = '';
+    }
 }
 
 firstBlock();
@@ -160,7 +163,10 @@ const sliderBlock3 = () => {
         } else {
             arrowNext.style.display = "inline";
         }
-    })  
+    })
+    if(!requestElements.length){
+        document.querySelector('.extra-list').style.display = 'none';
+    }
 }
 
 sliderBlock3();
@@ -212,6 +218,9 @@ const News = ()=>{
             divRight.append(p);
         li.append(divRight);
         ul.append(li);
+    }
+    if(!newsElements.length){
+        document.querySelector('.news').innerHTML='';
     }
 }
 News();
@@ -451,7 +460,10 @@ const sliderBlock7 = () =>{
         } else {
             arrowNext.style.display = "inline";
         }
-    })  
+    })
+    if(!items.length){
+        document.querySelector('.new').style.display = 'none';
+    }  
 }
 
 sliderBlock7();
@@ -544,7 +556,10 @@ const sliderBlock8 = () =>{
         } else {
             arrowNext.style.display = "inline";
         }
-    })  
+    })
+    if(!items.length){
+        document.querySelector('.recomendation').style.display = 'none';
+    } 
 }
 
 sliderBlock8();
@@ -641,7 +656,10 @@ const sliderBlock9 = () =>{
         } else {
             arrowNext.style.display = "inline";
         }
-    })  
+    })
+    if(!items.length){
+        document.querySelector('.sale-product').style.display = 'none';
+    }  
 }
 
 sliderBlock9();
@@ -832,7 +850,10 @@ const sliderBlock10 = () =>{
         } else {
             arrowNext.style.display = "inline";
         }
-    })  
+    })
+    if(!items.length){
+        document.querySelector('.action').style.display = 'none';
+    }  
 }
 
 sliderBlock10();

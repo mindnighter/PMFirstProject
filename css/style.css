@@ -1843,6 +1843,7 @@ button {
         width: 100%;
         padding: 8px 6px;
         border-left: 1px solid #ff743d;
+        text-align: center;
     }
 
     .extra-list__item:hover {
