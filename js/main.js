@@ -343,6 +343,91 @@ const create = (items,order,type)=>{
     }
 }
 
+const createSlider = (slideNmae,arrowOrder,libArrowOrder,items) =>{
+    let gap = "35px";
+    let elemsPerPage = items.length;
+    const screenWidth = window.screen.width
+
+    if(elemsPerPage < 2){
+        elemsPerPage = 2;
+        document.querySelector(slideNmae).style.marginLeft = "35%";
+    }
+    if(screenWidth <= 980){
+        if(elemsPerPage < 3){
+
+        } else{
+            elemsPerPage = 3;
+        }
+        
+        gap = "20px";
+    }
+    if(screenWidth < 750){
+        elemsPerPage = 1;
+        gap = `${screenWidth/2 - 150}px`;
+        if(screenWidth < 300) {gap = "1px"}
+        document.querySelector(slideNmae).style.marginLeft = gap;
+        document.querySelector(slideNmae).style.marginRight = gap;
+    }
+    if(elemsPerPage > 4){
+        elemsPerPage = 4;
+    }
+    
+    new Splide( slideNmae,{
+        perPage:  elemsPerPage,
+        pagination:false,
+        perMove:1,
+        gap: gap,
+        autoHeight: true,
+       
+    }).mount();
+    const arrowPrev = document.querySelectorAll('.arrow-prev')[arrowOrder];
+    const arrowNext = document.querySelectorAll('.arrow-next')[arrowOrder];
+    const libArrowP = document.querySelectorAll('.splide__arrow--prev')[libArrowOrder];
+    const libArrowN = document.querySelectorAll('.splide__arrow--next')[libArrowOrder];
+    libArrowP.style.display = "none";
+    libArrowN.style.display = "none";
+    if(libArrowN.hasAttribute('disabled')){
+        arrowNext.style.display = "none";
+    } else {
+        arrowNext.style.display = "inline";
+    }
+    if(libArrowP.hasAttribute('disabled')){
+        arrowPrev.style.display = "none";
+    } else {
+        arrowPrev.style.display = "inline";
+    }
+    arrowNext.style.zIndex = 10;
+    arrowNext.addEventListener('click',()=>{
+        let event = new Event('click');
+        libArrowN.dispatchEvent(event);
+        if(libArrowN.hasAttribute('disabled')){
+            arrowNext.style.display = "none";
+        } else {
+            arrowNext.style.display = "inline";
+        }
+        if(libArrowP.hasAttribute('disabled')){
+            arrowPrev.style.display = "none";
+        } else {
+            arrowPrev.style.display = "inline";
+        }
+    })
+    arrowPrev.addEventListener('click',()=>{
+        let event = new Event('click');
+        libArrowP.dispatchEvent(event);
+        if(libArrowP.hasAttribute('disabled')){
+            arrowPrev.style.display = "none";
+        } else {
+            arrowPrev.style.display = "inline";
+        }
+        if(libArrowN.hasAttribute('disabled')){
+            arrowNext.style.display = "none";
+        } else {
+            arrowNext.style.display = "inline";
+        }
+    })
+}
+
+
 const makeRightPrice = (arr) =>{
     for(i = 0; i < arr.length; i++){
         if(arr[i].currency == "RUB"){
@@ -380,87 +465,7 @@ const sliderBlock7 = () =>{
     items = makeRightPrice(items);
     items = sortByDate(items);
     create(items,0,'new');
-    let gap = "35px";
-    let elemsPerPage = items.length;
-    const screenWidth = window.screen.width
-
-    if(elemsPerPage < 2){
-        elemsPerPage = 2;
-        document.querySelector('.splide7').style.marginLeft = "35%";
-    }
-    if(screenWidth <= 980){
-        if(elemsPerPage < 3){
-
-        } else{
-            elemsPerPage = 3;
-        }
-        
-        gap = "20px";
-    }
-    if(screenWidth < 750){
-        elemsPerPage = 1;
-        gap = `${screenWidth/2 - 150}px`;
-        if(screenWidth < 300) {gap = "1px"}
-        document.querySelector('.splide7').style.marginLeft = gap;
-        document.querySelector('.splide7').style.marginRight = gap;
-    }
-    if(elemsPerPage > 4){
-        elemsPerPage = 4;
-    }
-    
-    new Splide( '.splide7',{
-        perPage:  elemsPerPage,
-        pagination:false,
-        perMove:1,
-        gap: gap,
-        autoHeight: true,
-       
-    }).mount();
-    const arrowPrev = document.querySelectorAll('.arrow-prev')[0];
-    const arrowNext = document.querySelectorAll('.arrow-next')[0];
-    const libArrowP = document.querySelectorAll('.splide__arrow--prev')[2];
-    const libArrowN = document.querySelectorAll('.splide__arrow--next')[2];
-    libArrowP.style.display = "none";
-    libArrowN.style.display = "none";
-    if(libArrowN.hasAttribute('disabled')){
-        arrowNext.style.display = "none";
-    } else {
-        arrowNext.style.display = "inline";
-    }
-    if(libArrowP.hasAttribute('disabled')){
-        arrowPrev.style.display = "none";
-    } else {
-        arrowPrev.style.display = "inline";
-    }
-    arrowNext.style.zIndex = 10;
-    arrowNext.addEventListener('click',()=>{
-        let event = new Event('click');
-        libArrowN.dispatchEvent(event);
-        if(libArrowN.hasAttribute('disabled')){
-            arrowNext.style.display = "none";
-        } else {
-            arrowNext.style.display = "inline";
-        }
-        if(libArrowP.hasAttribute('disabled')){
-            arrowPrev.style.display = "none";
-        } else {
-            arrowPrev.style.display = "inline";
-        }
-    })
-    arrowPrev.addEventListener('click',()=>{
-        let event = new Event('click');
-        libArrowP.dispatchEvent(event);
-        if(libArrowP.hasAttribute('disabled')){
-            arrowPrev.style.display = "none";
-        } else {
-            arrowPrev.style.display = "inline";
-        }
-        if(libArrowN.hasAttribute('disabled')){
-            arrowNext.style.display = "none";
-        } else {
-            arrowNext.style.display = "inline";
-        }
-    })
+    createSlider('.splide7',0,2,items);
     if(!items.length){
         document.querySelector('.new').style.display = 'none';
     }  
@@ -477,86 +482,7 @@ const sliderBlock8 = () =>{
     items = makeRightPrice(items);
     items = sortByPrice(items);
     create(items,1,'recommended');
-    let gap = "35px";
-    let elemsPerPage = items.length;
-    const screenWidth = window.screen.width
-
-    if(elemsPerPage < 2){
-        elemsPerPage = 2;
-    }
-    if(screenWidth <= 980){
-        if(elemsPerPage < 3){
-
-        } else{
-            elemsPerPage = 3;
-        }
-        
-        gap = "20px";
-    }
-    if(screenWidth < 750){
-        elemsPerPage = 1;
-        gap = `${screenWidth/2 - 150}px`;
-        if(screenWidth < 300) {gap = "1px"}
-        document.querySelector('.splide8').style.marginLeft = gap;
-        document.querySelector('.splide8').style.marginRight = gap;
-    }
-    if(elemsPerPage > 4){
-        elemsPerPage = 4;
-    }
-    
-    new Splide( '.splide8',{
-        perPage:  elemsPerPage,
-        pagination:false,
-        perMove:1,
-        gap: gap,
-        autoHeight: true,
-       
-    }).mount();
-    const arrowPrev = document.querySelectorAll('.arrow-prev')[1];
-    const arrowNext = document.querySelectorAll('.arrow-next')[1];
-    const libArrowP = document.querySelectorAll('.splide__arrow--prev')[3];
-    const libArrowN = document.querySelectorAll('.splide__arrow--next')[3];
-    libArrowP.style.display = "none";
-    libArrowN.style.display = "none";
-    arrowNext.style.zIndex = 10;
-    if(libArrowN.hasAttribute('disabled')){
-        arrowNext.style.display = "none";
-    } else {
-        arrowNext.style.display = "inline";
-    }
-    if(libArrowP.hasAttribute('disabled')){
-        arrowPrev.style.display = "none";
-    } else {
-        arrowPrev.style.display = "inline";
-    }
-    arrowNext.addEventListener('click',()=>{
-        let event = new Event('click');
-        libArrowN.dispatchEvent(event);
-        if(libArrowN.hasAttribute('disabled')){
-            arrowNext.style.display = "none";
-        } else {
-            arrowNext.style.display = "inline";
-        }
-        if(libArrowP.hasAttribute('disabled')){
-            arrowPrev.style.display = "none";
-        } else {
-            arrowPrev.style.display = "inline";
-        }
-    })
-    arrowPrev.addEventListener('click',()=>{
-        let event = new Event('click');
-        libArrowP.dispatchEvent(event);
-        if(libArrowP.hasAttribute('disabled')){
-            arrowPrev.style.display = "none";
-        } else {
-            arrowPrev.style.display = "inline";
-        }
-        if(libArrowN.hasAttribute('disabled')){
-            arrowNext.style.display = "none";
-        } else {
-            arrowNext.style.display = "inline";
-        }
-    })
+    createSlider('.splide8',1,3,items);
     if(!items.length){
         document.querySelector('.recomendation').style.display = 'none';
     } 
@@ -578,85 +504,7 @@ const sliderBlock9 = () =>{
     items = makeRightPrice(items);
     items = sortByOldPrice(items);
     create(items,2,'sale');
-    let gap = "45px";
-    let elemsPerPage = items.length;
-    const screenWidth = window.screen.width
-    if(elemsPerPage < 2){
-        elemsPerPage = 2;
-    }
-    if(screenWidth <= 980){
-        if(elemsPerPage < 3){
-
-        } else{
-            elemsPerPage = 3;
-        }
-        
-        gap = "20px";
-    }
-    if(screenWidth < 750){
-        elemsPerPage = 1;
-        gap = `${screenWidth/2 - 150}px`;
-        if(screenWidth < 300) {gap = "1px"}
-        document.querySelector('.splide9').style.marginLeft = gap;
-        document.querySelector('.splide9').style.marginRight = gap;
-    }
-    if(elemsPerPage > 4){
-        elemsPerPage = 4;
-    }
-    
-    new Splide( '.splide9',{
-        perPage:  elemsPerPage,
-        pagination:false,
-        perMove:1,
-        gap: gap,
-        autoHeight: true,
-       
-    }).mount();
-    const arrowPrev = document.querySelectorAll('.arrow-prev')[2];
-    const arrowNext = document.querySelectorAll('.arrow-next')[2];
-    const libArrowP = document.querySelectorAll('.splide__arrow--prev')[4];
-    const libArrowN = document.querySelectorAll('.splide__arrow--next')[4];
-    libArrowP.style.display = "none";
-    libArrowN.style.display = "none";
-    arrowNext.style.zIndex = 10;
-    if(libArrowN.hasAttribute('disabled')){
-        arrowNext.style.display = "none";
-    } else {
-        arrowNext.style.display = "inline";
-    }
-    if(libArrowP.hasAttribute('disabled')){
-        arrowPrev.style.display = "none";
-    } else {
-        arrowPrev.style.display = "inline";
-    }
-    arrowNext.addEventListener('click',()=>{
-        let event = new Event('click');
-        libArrowN.dispatchEvent(event);
-        if(libArrowN.hasAttribute('disabled')){
-            arrowNext.style.display = "none";
-        } else {
-            arrowNext.style.display = "inline";
-        }
-        if(libArrowP.hasAttribute('disabled')){
-            arrowPrev.style.display = "none";
-        } else {
-            arrowPrev.style.display = "inline";
-        }
-    })
-    arrowPrev.addEventListener('click',()=>{
-        let event = new Event('click');
-        libArrowP.dispatchEvent(event);
-        if(libArrowP.hasAttribute('disabled')){
-            arrowPrev.style.display = "none";
-        } else {
-            arrowPrev.style.display = "inline";
-        }
-        if(libArrowN.hasAttribute('disabled')){
-            arrowNext.style.display = "none";
-        } else {
-            arrowNext.style.display = "inline";
-        }
-    })
+    createSlider('.splide9',2,4,items);
     if(!items.length){
         document.querySelector('.sale-product').style.display = 'none';
     }  
